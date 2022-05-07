@@ -1,6 +1,6 @@
 package cs1302.omega;
 
-import cs1302.game.DemoGame;
+import cs1302.api.APODApi;
 
 import javafx.application.Application;
 import javafx.application.Platform;

@@ -26,22 +26,11 @@ public class OmegaApp extends Application {
     @Override
     public void start(Stage stage) {
 
-        // demonstrate how to load local asset using "file:resources/"
-        Image bannerImage = new Image("file:resources/readme-banner.png");
-        ImageView banner = new ImageView(bannerImage);
-        banner.setPreserveRatio(true);
-        banner.setFitWidth(640);
 
-        // some labels to display information
-        Label notice = new Label("Modify the starter code to suit your needs.");
-        Label instructions
-            = new Label("Move left/right with arrow keys; click rectangle to teleport.");
-
-        // demo game provided with the starter code
-        DemoGame game = new DemoGame(640, 240);
+        APODApi.print();
 
         // setup scene
-        VBox root = new VBox(banner, notice, instructions, game);
+        VBox root = new VBox();
         Scene scene = new Scene(root);
 
         // setup stage
@@ -50,9 +39,6 @@ public class OmegaApp extends Application {
         stage.setOnCloseRequest(event -> Platform.exit());
         stage.sizeToScene();
         stage.show();
-
-        // play the game
-        game.play();
 
     } // start
 

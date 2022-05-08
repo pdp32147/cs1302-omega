@@ -1,6 +1,7 @@
 package cs1302.omega;
 
 import cs1302.api.APODApi;
+import cs1302.api.PokeApi;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -12,9 +13,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * REPLACE WITH NON-SHOUTING DESCRIPTION OF YOUR APP.
+ * This app allows the user to input their birthday. From the birthday, it will
+ * find the Astronomy Picture of the day, and then look at what colors show up
+ * the most in the picture in order to assign them a birthday pokemon.
  */
 public class OmegaApp extends Application {
+
+    Stage stage;
+    Scene scene;
 
     /**
      * Constructs an {@code OmegaApp} object. This default (i.e., no argument)
@@ -32,6 +38,8 @@ public class OmegaApp extends Application {
         Scene scene = new Scene(root);
 
         root.getChildren().addAll(APODApi.create());
+
+//        PokeApi.pictureGet();
 
         // setup stage
         stage.setTitle("OmegaApp!");

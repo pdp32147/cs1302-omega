@@ -27,11 +27,14 @@ import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 
 /**This class is used to get the correct APOD Image corrresponding
- * to the user's birthday.
+ * to the user's birthday. It will also get the predominant color in the picture.
+ * If the url supplies a picture that is not an acceptable format for PixelFormat, it will
+ * move onto the next date.
  */
 public class APODApi {
 
     public static ImageView picture;
+    public static Image apodImage;
 
     /** HTTP client. */
     public static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
@@ -55,13 +58,13 @@ public class APODApi {
         "https://api.nasa.gov/planetary/apod?api_key"
         + "=fDLjXx340WUXFwtnRZrpRZKy9LOlQI3ZuYw60jof&date=";
     private static String hd = "&hd=true";
-    private static String date = "2020-11-14"; //Date in format YEAR-MO-DA
+    private static String date = "2022-02-08"; //Date in format YEAR-MO-DA
     public static String uri = APOD_API + date + hd;
 
     //Imageview imageView = new ImageView;
 
     /**
-     * Get the picture that corresponds to the right date.
+     * Queries the API, get the response, and uses it to assign ImageView picture to a picture.
      */
     public static void pictureGet() {
         try {
@@ -81,25 +84,26 @@ public class APODApi {
             // parse the JSON-formatted string using GSON
             APODResponse apodResponse = GSON
                 .fromJson(jsonString, APODResponse.class);
-            picture = imgCraft(apodResponse);
+            picture = imgCraft(apodResponse); // assign imageView from query to Picture.
         } catch (IOException | InterruptedException e) {
             System.err.println(e);
             e.printStackTrace();
         } // trycatch
     } //pictureGet
 
-    /** Creates an ImageView object using the response.
+    /** Creates an ImageView object using the response from the pictureGet method.
      * @param apodResponse the url of this query is used for the image
      * @return ImageView of url supplied.
      */
     private static ImageView imgCraft(APODResponse apodResponse) {
         String url  = apodResponse.url;
-        Image img = new Image(url, DEFAULT_WIDTH, DEFAULT_HEIGHT, false, false );
-        getCommonColor(img);
-        ImageView imgView = new ImageView(img);
+        apodImage = new Image(url, DEFAULT_WIDTH, DEFAULT_HEIGHT, false, false );
+        getCommonColor(apodImage);
+        ImageView imgView = new ImageView(apodImage);
         imgView.setPreserveRatio(true);
         return imgView;
     } //imgCraft
+
 
 /** Creates an ImageView object that can be used in the application.
  * @return ImageView object that can be added to the application scene.
@@ -111,8 +115,8 @@ public class APODApi {
 
 
     public static int getCommonColor(Image image) {
-        int x = 145;
-        int y = 150;
+        int x = 100;
+        int y = 100;
         int colorValue  = image.getPixelReader().getArgb(x,y); //get int RGB value
 
         String hexColor = String.format("%06X", (0xFFFFFF & colorValue)); // convert to hexcode
@@ -124,8 +128,51 @@ public class APODApi {
 
         System.out.println(red + ", " + green + ", " + blue);
 
+        System.out.println(closestColor(rgb));
+
         return colorValue;
     } //getCommonColor
+
+    public static String closestColor(int[] rgb) {
+
+        int[] colors = new int[10];
+        String[] colorNames = {"red", "blue" , "yellow", "green",
+                             "black", "brown", "purple", "gray", "white", "pink"};
+        int closer = 1;
+
+        colors[0] = rgbDistance("red", rgb, 225, 0, 0);
+        colors[1] = rgbDistance("blue", rgb, 0, 225, 0);
+        colors[2] = rgbDistance("yellow", rgb, 225, 225, 0);
+        colors[3] = rgbDistance("green", rgb, 0, 225, 0);
+        colors[4] = rgbDistance("black", rgb, 0, 0, 0);
+        colors[5]= rgbDistance("brown", rgb, 102, 51, 0);
+        colors[6]= rgbDistance("purple", rgb, 153, 51, 255);
+        colors[7]= rgbDistance("gray", rgb, 160, 160, 160);
+        colors[8]= rgbDistance("white", rgb, 225, 225, 225);
+        colors[9]= rgbDistance("pink", rgb, 255, 0, 127);
+
+        System.out.println("checkingDistance formula\n");
+        for (int i = 0; i <colors.length; i++) {
+            System.out.println(colorNames[i] + ": " +colors[i]);
+        } // for
+
+        System.out.println();
+
+        for (int i = 0; i < colors.length; i++) {
+            if (colors[i] < colors[closer]) {
+                closer = i;
+            } // if
+        } // for
+
+        return colorNames[closer];
+
+    } //closestColor
+
+    public static int rgbDistance(String identifier, int[] rgb, int red, int green, int blue) {
+        int distance;
+        distance = Math.abs(rgb[0] - red) + Math.abs(rgb[1] - green) + Math.abs(rgb[2] - blue);
+        return distance;
+    } //rgbDistance
 
     public static int[] getRGB(String rgb) {
         int[] ret = new int[3];

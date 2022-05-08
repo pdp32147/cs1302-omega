@@ -20,18 +20,18 @@ public class OmegaApp extends Application {
      * Constructs an {@code OmegaApp} object. This default (i.e., no argument)
      * constructor is executed in Step 2 of the JavaFX Application Life-Cycle.
      */
-    public OmegaApp() {}
+    public OmegaApp() {
+    } //OmegaApp
 
     /** {@inheritDoc} */
     @Override
     public void start(Stage stage) {
 
-
-        APODApi.print();
-
         // setup scene
         VBox root = new VBox();
         Scene scene = new Scene(root);
+
+        root.getChildren().addAll(APODApi.create());
 
         // setup stage
         stage.setTitle("OmegaApp!");

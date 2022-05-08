@@ -98,7 +98,7 @@ public class APODApi {
     private static ImageView imgCraft(APODResponse apodResponse) {
         String url  = apodResponse.url;
         apodImage = new Image(url, DEFAULT_WIDTH, DEFAULT_HEIGHT, false, false );
-        getCommonColor(apodImage);
+        System.out.println(getCommonColor(apodImage, 100, 100)); //print str common APOD color
         ImageView imgView = new ImageView(apodImage);
         imgView.setPreserveRatio(true);
         return imgView;
@@ -114,9 +114,16 @@ public class APODApi {
     } //create
 
 
-    public static int getCommonColor(Image image) {
-        int x = 100;
-        int y = 100;
+    /** This method gets color of a pixel specific by the paramters
+     * of an image that is supplied. Gets string using closest color
+     * method.
+     * @param image this image will be processed, should be an APOD
+     * @param x value of pixel
+     * @param y value of pixel
+     * @return String name of the most common color.
+     */
+    public static String getCommonColor(Image image, int x, int y) {
+
         int colorValue  = image.getPixelReader().getArgb(x,y); //get int RGB value
 
         String hexColor = String.format("%06X", (0xFFFFFF & colorValue)); // convert to hexcode
@@ -128,16 +135,22 @@ public class APODApi {
 
         System.out.println(red + ", " + green + ", " + blue);
 
-        System.out.println(closestColor(rgb));
-
-        return colorValue;
+        return closestColor(rgb);
     } //getCommonColor
 
+    /**
+     * This method is a helper method for the getCommonColor method.
+     * Using an array containg the r,g,b, and an rgb value, it assigns
+     * a color name by determing which reference color is closest
+     * to the RGB value. This uses the rgbDistance method.
+     * @param rgb is an array containing the APOD pixel's rgb value.
+     * @return is a string that is the name of the pixel's color.
+     */
     public static String closestColor(int[] rgb) {
 
         int[] colors = new int[10];
         String[] colorNames = {"red", "blue" , "yellow", "green",
-                             "black", "brown", "purple", "gray", "white", "pink"};
+                               "black", "brown", "purple", "gray", "white", "pink"};
         int closer = 1;
 
         colors[0] = rgbDistance("red", rgb, 225, 0, 0);
@@ -145,15 +158,15 @@ public class APODApi {
         colors[2] = rgbDistance("yellow", rgb, 225, 225, 0);
         colors[3] = rgbDistance("green", rgb, 0, 225, 0);
         colors[4] = rgbDistance("black", rgb, 0, 0, 0);
-        colors[5]= rgbDistance("brown", rgb, 102, 51, 0);
-        colors[6]= rgbDistance("purple", rgb, 153, 51, 255);
-        colors[7]= rgbDistance("gray", rgb, 160, 160, 160);
-        colors[8]= rgbDistance("white", rgb, 225, 225, 225);
-        colors[9]= rgbDistance("pink", rgb, 255, 0, 127);
+        colors[5] = rgbDistance("brown", rgb, 102, 51, 0);
+        colors[6] = rgbDistance("purple", rgb, 153, 51, 255);
+        colors[7] = rgbDistance("gray", rgb, 160, 160, 160);
+        colors[8] = rgbDistance("white", rgb, 225, 225, 225);
+        colors[9] = rgbDistance("pink", rgb, 255, 0, 127);
 
         System.out.println("checkingDistance formula\n");
-        for (int i = 0; i <colors.length; i++) {
-            System.out.println(colorNames[i] + ": " +colors[i]);
+        for (int i = 0; i < colors.length; i++) {
+            System.out.println(colorNames[i] + ": " + colors[i]);
         } // for
 
         System.out.println();
@@ -168,12 +181,26 @@ public class APODApi {
 
     } //closestColor
 
+    /** This is a helper method for the closestColor method.
+     * This method uses a given APOD pixel rgb array to find a
+     * target color defined by the red, green, blue parameters. Is identifiable by string parameter.
+     * @param identifier a string for readaibility of method call in closestColor, target color
+     * @param rgb is an array containing a pixel's rgb value, index 0,1,2 is r,g,b
+     * @param red is the red value for the targetColor
+     * @param green is the green value for the targetColor
+     * @param blue is the blue value for the targetColor
+     * @return int value which finds the distance from targetColor
+     */
     public static int rgbDistance(String identifier, int[] rgb, int red, int green, int blue) {
         int distance;
         distance = Math.abs(rgb[0] - red) + Math.abs(rgb[1] - green) + Math.abs(rgb[2] - blue);
         return distance;
     } //rgbDistance
 
+    /**This method is used by getCommonColor to convert the hexcode value to rgb.
+     * @param rgb is the hexcode value
+     * @return an integer array containing the red, blue, and green for RGB.
+     */
     public static int[] getRGB(String rgb) {
         int[] ret = new int[3];
         for (int i = 0; i < 3; i++) {
@@ -181,6 +208,5 @@ public class APODApi {
         }
         return ret;
     } //getRGB
-
 
 } //APODApi

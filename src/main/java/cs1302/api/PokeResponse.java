@@ -9,7 +9,6 @@ import com.google.gson.annotations.SerializedName;
  */
 public class PokeResponse {
 
-    String names[];
-    PokeResult[] pokemon_species;
+    @SerializedName("pokemon_species") PokeResult[] pokemonSpecies;
 
 } //PokeResponse

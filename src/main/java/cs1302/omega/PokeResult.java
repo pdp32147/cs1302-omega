@@ -1,4 +1,4 @@
-package cs1302.api;
+package cs1302.omega;
 
 /**
  * This class represents a response from the PokeApi, and is used by GSON to
@@ -6,7 +6,6 @@ package cs1302.api;
  */
 public class PokeResult {
 
-//    String name;
-    String url;
+    String name;
 
 } //PokeResult

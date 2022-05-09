@@ -147,7 +147,7 @@ public class APODApi {
                     colorCounter[7] = 0;
                 } // if gray
                 if (commonColor.equals("white")) {
-                        colorCounter[8]++;
+                    colorCounter[8]++;
                 } // if white
                 if (commonColor.equals("pink")) {
                     colorCounter[9]++;

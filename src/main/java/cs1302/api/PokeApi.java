@@ -1,7 +1,7 @@
 package cs1302.api;
 
-import cs1302.api.PokeResponse;
-import cs1302.api.PokeResult;
+import cs1302.omega.PokeResponse;
+import cs1302.omega.PokeResult;
 
 import java.net.http.HttpClient;
 import javafx.application.Application;
@@ -30,7 +30,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class PokeApi {
 
-    public static String[] names = new String[200];
+    public static String[] names = new String[20];
     //public static String pokemonColor =  APODApi.getColor();
 
     /** HTTP client. */
@@ -69,8 +69,9 @@ public class PokeApi {
             String jsonString = response.body();
             System.out.println(jsonString);
             //parse the JSON-formatted string using GSON
-                PokeResponse pokeResponse = GSON
+            PokeResponse pokeResponse = GSON
                 .fromJson(jsonString, PokeResponse.class);
+
         } catch (IOException | InterruptedException e) {
             System.err.println(e);
             e.printStackTrace();

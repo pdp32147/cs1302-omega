@@ -1,6 +1,6 @@
-package cs1302.api;
+package cs1302.omega;
 
-import cs1302.api.PokeResult;
+import cs1302.omega.PokeResult;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -9,8 +9,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class PokeResponse {
 
-    //@SerializedName("pokemon_species") PokeResult[] pokemonSpecies;
-
-    public PokeResult[] pokemon_species;
+    @SerializedName("pokemon_species")
+    public PokeResult[] pokemonSpecies;
 
 } //PokeResponse

@@ -35,6 +35,10 @@ public class APODApi {
 
     public static ImageView picture;
     public static Image apodImage;
+    public static Image apodCompact;
+    public static String[] colorNames = {"red", "blue" , "yellow", "green",
+                                         "black", "brown", "purple", "gray", "white", "pink"};
+
 
     /** HTTP client. */
     public static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
@@ -51,14 +55,14 @@ public class APODApi {
         "https://api.nasa.gov/planetary/apod?api_key=" +
         "fDLjXx340WUXFwtnRZrpRZKy9LOlQI3ZuYw60jof&date=1995-06-16&hd=true";
 
-    private static final int DEFAULT_WIDTH = 300;
-    private static final int DEFAULT_HEIGHT = 300;
+    private static final int DEFAULT_WIDTH = 500;
+    private static final int DEFAULT_HEIGHT = 500;
 
     private static final String APOD_API  =
         "https://api.nasa.gov/planetary/apod?api_key"
         + "=fDLjXx340WUXFwtnRZrpRZKy9LOlQI3ZuYw60jof&date=";
     private static String hd = "&hd=true";
-    private static String date = "2022-02-08"; //Date in format YEAR-MO-DA
+    private static String date = "1999-12-17"; //Date in format YEAR-MO-DA
     public static String uri = APOD_API + date + hd;
 
     //Imageview imageView = new ImageView;
@@ -97,13 +101,71 @@ public class APODApi {
      */
     private static ImageView imgCraft(APODResponse apodResponse) {
         String url  = apodResponse.url;
-        apodImage = new Image(url, DEFAULT_WIDTH, DEFAULT_HEIGHT, false, false );
-        System.out.println(getCommonColor(apodImage, 100, 100)); //print str common APOD color
+        apodImage = new Image(url, DEFAULT_WIDTH, DEFAULT_HEIGHT, false, false);
+        apodCompact = new Image(url, 100, 100, false, false);
+        System.out.println( "Most common color: " + imageCommonColor(apodCompact, 99, 99));
         ImageView imgView = new ImageView(apodImage);
         imgView.setPreserveRatio(true);
         return imgView;
     } //imgCraft
 
+    /**
+     * This method will use the getCommonColorMethod, but run it's x and y parameters,
+     * which specify a pixel, and return the name for every pixel in apodCompact.
+     * @param apodCompact takes in a lower resolution apod
+     * @param x is the size - 1 of apodCompact's resolution
+     * @param y is the size - 1 of apodCompact's resolution
+     * @return String of the most common color in the picture.
+     */
+    public static String imageCommonColor (Image apodCompact, int x, int y) {
+        int[] colorCounter = new int[10];
+        for (int i = 0; i <= (x - 1); i++) {
+            for (int j = 0; j <= (y - 1); j++) {
+                String commonColor = getCommonColor(apodCompact, i, j);
+                if (commonColor.equals("red")) {
+                    colorCounter[0]++;
+                } // if red
+                if (commonColor.equals(colorNames[2])) {
+                    colorCounter[1]++;
+                } // if blue
+                if (commonColor.equals("yellow")) {
+                    colorCounter[2]++;
+                } // if yellow
+                if (commonColor.equals("green")) {
+                    colorCounter[3]++;
+                } // if green
+                if (commonColor.equals("black")) {
+                    colorCounter[4] = 0;
+                } // if black
+                if (commonColor.equals("brown")) {
+                    colorCounter[5] = 0;
+                } // if brown
+                if (commonColor.equals("purple")) {
+                    colorCounter[6]++;
+                } // if purple
+                if (commonColor.equals("gray")) {
+                    colorCounter[7] = 0;
+                } // if gray
+                if (commonColor.equals("white")) {
+                    colorCounter[8]++;
+                } // if white
+                if (commonColor.equals("pink")) {
+                    colorCounter[9]++;
+                } // if pink
+            } // for j
+        } // for i
+
+        int counterTracker = 0;
+
+        for (int i = 0; i < colorCounter.length; i++) {
+            if (colorCounter[i] > colorCounter[counterTracker]) {
+                counterTracker = i;
+            } //if
+        } // for colorCounter
+
+        String mostCommonColor = colorNames[counterTracker];
+        return mostCommonColor;
+    } //imageCommonColor_
 
 /** Creates an ImageView object that can be used in the application.
  * @return ImageView object that can be added to the application scene.
@@ -133,9 +195,10 @@ public class APODApi {
         int green = rgb[1];
         int blue = rgb[2];
 
-        System.out.println(red + ", " + green + ", " + blue);
+        // Testing Purposes: System.out.println(red + ", " + green + ", " + blue);
 
         return closestColor(rgb);
+
     } //getCommonColor
 
     /**
@@ -149,12 +212,10 @@ public class APODApi {
     public static String closestColor(int[] rgb) {
 
         int[] colors = new int[10];
-        String[] colorNames = {"red", "blue" , "yellow", "green",
-                               "black", "brown", "purple", "gray", "white", "pink"};
         int closer = 1;
 
         colors[0] = rgbDistance("red", rgb, 225, 0, 0);
-        colors[1] = rgbDistance("blue", rgb, 0, 225, 0);
+        colors[1] = rgbDistance("blue", rgb, 0, 0, 225);
         colors[2] = rgbDistance("yellow", rgb, 225, 225, 0);
         colors[3] = rgbDistance("green", rgb, 0, 225, 0);
         colors[4] = rgbDistance("black", rgb, 0, 0, 0);
@@ -163,14 +224,13 @@ public class APODApi {
         colors[7] = rgbDistance("gray", rgb, 160, 160, 160);
         colors[8] = rgbDistance("white", rgb, 225, 225, 225);
         colors[9] = rgbDistance("pink", rgb, 255, 0, 127);
-
-        System.out.println("checkingDistance formula\n");
+/*
+// FOR TESTING PURPOSES
+        System.out.println("Distance formula:");
         for (int i = 0; i < colors.length; i++) {
-            System.out.println(colorNames[i] + ": " + colors[i]);
+            System.out.print( colorNames[i] + ": " + colors[i] + ",");
         } // for
-
-        System.out.println();
-
+*/
         for (int i = 0; i < colors.length; i++) {
             if (colors[i] < colors[closer]) {
                 closer = i;

@@ -89,4 +89,13 @@ public class PokeImage {
         return imgView;
     } //getPicture
 
+    /** This method returns an Image object of the pokemon rather than imageview.
+     * @return Image of pokemon.
+     */
+    public static Image pokeForApp() {
+        String url = pictureGet();
+        Image pokemonPic = new Image (url, 200, 200, false, false);
+        return pokemonPic;
+    } //pokeForApp
+
 } //PokeApi

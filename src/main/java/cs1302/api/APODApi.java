@@ -39,6 +39,8 @@ public class APODApi {
     public static String[] colorNames = {"red", "blue" , "yellow", "green",
                                          "black", "brown", "purple", "gray", "white", "pink"};
     public static String color;
+    public static Image apodForApp;
+    public static String newDate;
 
     /** HTTP client. */
     public static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
@@ -58,12 +60,20 @@ public class APODApi {
     private static final int DEFAULT_WIDTH = 500;
     private static final int DEFAULT_HEIGHT = 500;
 
-    private static final String APOD_API  =
+    private static String APOD_API  =
         "https://api.nasa.gov/planetary/apod?api_key"
         + "=fDLjXx340WUXFwtnRZrpRZKy9LOlQI3ZuYw60jof&date=";
     private static String hd = "&hd=true";
-    private static String date = "2017-07-29"; //Date in format YEAR-MO-DA
+    public static String date = "2022-02-08";
     public static String uri = APOD_API + date + hd;
+
+    /** pictureGet method but accepts a date rather than default.
+     * @param date for the desired apod
+     */
+    public static void pictureGet(String date) {
+        uri = APOD_API + date + hd;
+        pictureGet();
+    } //pictureGet date
 
     //Imageview imageView = new ImageView;
 
@@ -71,6 +81,7 @@ public class APODApi {
      * Queries the API, get the response, and uses it to assign ImageView picture to a picture.
      */
     public static void pictureGet() {
+
         try {
             // build request
             HttpRequest request = HttpRequest.newBuilder()
@@ -89,12 +100,21 @@ public class APODApi {
             APODResponse apodResponse = GSON
                 .fromJson(jsonString, APODResponse.class);
             picture = imgCraft(apodResponse); // assign imageView from query to Picture.
+            apodForApp = apodImage(apodResponse);
         } catch (IOException | InterruptedException e) {
             System.err.println(e);
             e.printStackTrace();
         } // trycatch
     } //pictureGet
 
+    /**This method returns the APOD Image.
+     *@param date for the APOD
+     *@return Image of APOD
+     */
+    public static Image apodForApp(String date) {
+        pictureGet(date);
+        return apodForApp;
+    } //apodForApp
 
     /** Creates an ImageView object using the response from the pictureGet method.
      * @param apodResponse the url of this query is used for the image
@@ -108,6 +128,17 @@ public class APODApi {
         imgView.setPreserveRatio(true);
         return imgView;
     } //imgCraft
+
+    /** This method makes the image using apodResponse.
+     * @param apodResponse is the response from query
+     * @return Image this image gets stored as a var to another method
+     * can call it.
+     */
+    private static Image apodImage(APODResponse apodResponse) {
+        String url = apodResponse.url;
+        apodImage = new Image(url, DEFAULT_WIDTH, DEFAULT_HEIGHT, false, false);
+        return apodImage;
+    } //apodImage
 
     /**
      * This method will use the getCommonColorMethod, but run it's x and y parameters,

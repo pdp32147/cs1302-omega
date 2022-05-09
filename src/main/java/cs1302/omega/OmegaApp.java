@@ -33,6 +33,8 @@ public class OmegaApp extends Application {
     ImageView apodView = APODApi.create();
 
     Label label;
+    String input;
+    String inputStorage;
 
     /**
      * Constructs an {@code OmegaApp} object. This default (i.e., no argument)
@@ -51,10 +53,16 @@ public class OmegaApp extends Application {
         Button button = new Button("\t\t\t\t\t  Click Here to enter "
             + "another date and get another pokemon!!!\t\t\t\t\t");
 
+        ImageView APODContainer = new ImageView();
+        ImageView PokeContainer = new ImageView();
+
+        APODContainer.setImage(APODApi.apodForApp("1999-12-17"));
+        PokeContainer.setImage(PokeImage.pokeForApp());
+
         HBox imageView = new HBox();
         Label information = new Label("This APOD is from, the dominant color is, the PokeMon is");
 
-        imageView.getChildren().addAll(APODApi.create(), PokeImage.create());
+        imageView.getChildren().addAll( APODContainer, PokeContainer);
 
         this.label = new Label();
 
@@ -63,10 +71,11 @@ public class OmegaApp extends Application {
                 @Override
                 public void handle(ActionEvent event) {
                     showInputTextDialog();
+                    System.out.println("Testing input from handle method: " + input);
                 }
             });
 
-        root.getChildren().addAll(button, label,imageView, information);
+        root.getChildren().addAll(button,imageView, information);
 
         // setup stage
         stage.setTitle("OmegaApp Presents: Celestial Pokemon!!!");
@@ -95,7 +104,10 @@ public class OmegaApp extends Application {
 
         result.ifPresent(name -> {
             this.label.setText(name);
+            input = name;
         });
+        System.out.println("Testing input from helper method: " + input);
+
     }
 
 } // OmegaApp

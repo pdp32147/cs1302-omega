@@ -38,7 +38,7 @@ public class APODApi {
     public static Image apodCompact;
     public static String[] colorNames = {"red", "blue" , "yellow", "green",
                                          "black", "brown", "purple", "gray", "white", "pink"};
-
+    public static String color;
 
     /** HTTP client. */
     public static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
@@ -62,7 +62,7 @@ public class APODApi {
         "https://api.nasa.gov/planetary/apod?api_key"
         + "=fDLjXx340WUXFwtnRZrpRZKy9LOlQI3ZuYw60jof&date=";
     private static String hd = "&hd=true";
-    private static String date = "1999-12-17"; //Date in format YEAR-MO-DA
+    private static String date = "2017-07-29"; //Date in format YEAR-MO-DA
     public static String uri = APOD_API + date + hd;
 
     //Imageview imageView = new ImageView;
@@ -95,6 +95,7 @@ public class APODApi {
         } // trycatch
     } //pictureGet
 
+
     /** Creates an ImageView object using the response from the pictureGet method.
      * @param apodResponse the url of this query is used for the image
      * @return ImageView of url supplied.
@@ -103,7 +104,6 @@ public class APODApi {
         String url  = apodResponse.url;
         apodImage = new Image(url, DEFAULT_WIDTH, DEFAULT_HEIGHT, false, false);
         apodCompact = new Image(url, 100, 100, false, false);
-        System.out.println( "Most common color: " + imageCommonColor(apodCompact, 99, 99));
         ImageView imgView = new ImageView(apodImage);
         imgView.setPreserveRatio(true);
         return imgView;
@@ -147,7 +147,7 @@ public class APODApi {
                     colorCounter[7] = 0;
                 } // if gray
                 if (commonColor.equals("white")) {
-                    colorCounter[8]++;
+                        colorCounter[8]++;
                 } // if white
                 if (commonColor.equals("pink")) {
                     colorCounter[9]++;
@@ -167,6 +167,15 @@ public class APODApi {
         return mostCommonColor;
     } //imageCommonColor_
 
+    /** This method returns a string value the most common color in the apod.
+     * The colors are excluding black, brown, and grey.
+     * @return string name of most common color
+     */
+    public static String getColor() {
+        pictureGet();
+        return imageCommonColor(apodCompact, 99, 99);
+    }
+
 /** Creates an ImageView object that can be used in the application.
  * @return ImageView object that can be added to the application scene.
  */
@@ -174,7 +183,6 @@ public class APODApi {
         pictureGet();
         return picture;
     } //create
-
 
     /** This method gets color of a pixel specific by the paramters
      * of an image that is supplied. Gets string using closest color

@@ -39,7 +39,7 @@ public class OmegaApp extends Application {
 
         root.getChildren().addAll(APODApi.create());
 
-//        PokeApi.pictureGet();
+        PokeApi.pictureGet();
 
         // setup stage
         stage.setTitle("OmegaApp!");

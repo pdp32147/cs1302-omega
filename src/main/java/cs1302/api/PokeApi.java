@@ -31,6 +31,7 @@ import java.nio.charset.StandardCharsets;
 public class PokeApi {
 
     public static String[] names = new String[200];
+    //public static String pokemonColor =  APODApi.getColor();
 
     /** HTTP client. */
     public static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
@@ -45,7 +46,7 @@ public class PokeApi {
 
     private static final String POKE_API  =
         "https://pokeapi.co/api/v2/pokemon-color/";
-    private static String color = "yellow";
+    private static String color = "purple";
     public static String uri = POKE_API + color;
 
     /**
@@ -66,10 +67,10 @@ public class PokeApi {
             } // if
             // get request body (the content we requested), as a string
             String jsonString = response.body();
-            // parse the JSON-formatted string using GSON
-            //          PokeResponse pokeResponse = GSON
-            //  .fromJson(jsonString, PokeResponse.class);
             System.out.println(jsonString);
+            //parse the JSON-formatted string using GSON
+                PokeResponse pokeResponse = GSON
+                .fromJson(jsonString, PokeResponse.class);
         } catch (IOException | InterruptedException e) {
             System.err.println(e);
             e.printStackTrace();

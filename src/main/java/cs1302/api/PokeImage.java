@@ -1,7 +1,6 @@
 package cs1302.api;
 
-import cs1302.omega.PokeResponse;
-import cs1302.omega.PokeResult;
+import cs1302.omega.PokeNameResponse;
 
 import java.util.Random;
 
@@ -30,11 +29,7 @@ import java.nio.charset.StandardCharsets;
 /**This class is used to get the correct APOD Image corrresponding
  * to the user's birthday.
  */
-public class PokeApi {
-
-    public static String[] names = new String[20];
-    public static String pokemonColor =  APODApi.getColor();
-    public static String pokemonName;
+public class PokeImage {
 
     /** HTTP client. */
     public static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
@@ -48,14 +43,16 @@ public class PokeApi {
         .create();
 
     private static final String POKE_API  =
-        "https://pokeapi.co/api/v2/pokemon-color/";
-    private static String color = pokemonColor;
-    public static String uri = POKE_API + color;
+        "https://pokeapi.co/api/v2/pokemon-form/";
+    public static String name = PokeApi.getName();
+    public static String uri = POKE_API + name;
+    public static String imageUrl;
 
     /**
-     * Get the picture that corresponds to the right date.
+     * Get the picture url that corresponds to the pokemon.
+     * @return string which is the url
      */
-    public static void pictureGet() {
+    public static String pictureGet() {
         try {
             // build request
             HttpRequest request = HttpRequest.newBuilder()
@@ -71,39 +68,25 @@ public class PokeApi {
             // get request body (the content we requested), as a string
             String jsonString = response.body();
             //parse the JSON-formatted string using GSON
-            PokeResponse pokeResponse = GSON
-                .fromJson(jsonString, PokeResponse.class);
-
-            pokemonName = randomPokemon(pokeResponse);
-
+            PokeNameResponse pokeNameResponse = GSON
+                .fromJson(jsonString, PokeNameResponse.class);
+            imageUrl =  pokeNameResponse.sprites.frontDefault;
         } catch (IOException | InterruptedException e) {
             System.err.println(e);
             e.printStackTrace();
         } // trycatch
+        return imageUrl;
     } //pictureGet
 
-    /** Returns the name of a random pokemon from the first 20 returned from the query.
-     * @param pokeResponse is the response from url
-     * @return name of a random pokemon using pokeResponse
-     */
-    public static String randomPokemon(PokeResponse pokeResponse) {
-        String[] nameArray = new String[20];
-
-        for (int i = 0; i < nameArray.length; i++) {
-            nameArray[i] = pokeResponse.pokemonSpecies[i].name;
-        } // for
-        Random rand  = new Random();
-        int random = rand.nextInt(19);
-        return nameArray[random];
-    } //imgCraft
-
-/** This method returns the string of the name so it's usable outside
- * this class.
- * @return string of the pokemon name
+/** This method returns an ImageView object containing the image of the returned pokemon.
+ * @return ImageView the object that contain the Pokemon picture
  */
-    public static String getName() {
-        pictureGet();
-        return pokemonName;
-    } // getName
+    public static ImageView create() {
+        String url = pictureGet();
+        Image pokemonPic = new Image (url, 200, 200, false, false);
+        ImageView imgView = new ImageView(pokemonPic);
+        imgView.setPreserveRatio(true);
+        return imgView;
+    } //getPicture
 
 } //PokeApi

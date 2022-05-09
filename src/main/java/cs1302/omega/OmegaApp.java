@@ -2,13 +2,14 @@ package cs1302.omega;
 
 import cs1302.api.APODApi;
 import cs1302.api.PokeApi;
+import cs1302.api.PokeImage;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -34,12 +35,13 @@ public class OmegaApp extends Application {
     public void start(Stage stage) {
 
         // setup scene
-        VBox root = new VBox();
+        HBox root = new HBox();
         Scene scene = new Scene(root);
 
-        root.getChildren().addAll(APODApi.create());
+        ImageView pokeView = PokeImage.create();
 
-        PokeApi.pictureGet();
+        root.getChildren().addAll(APODApi.create(), pokeView);
+        System.out.println(PokeImage.pictureGet());
 
         // setup stage
         stage.setTitle("OmegaApp!");

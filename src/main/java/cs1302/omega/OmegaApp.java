@@ -6,6 +6,9 @@ import cs1302.api.PokeImage;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -45,18 +48,25 @@ public class OmegaApp extends Application {
         // setup scene
         VBox root = new VBox();
         Scene scene = new Scene(root);
-
+        Button button = new Button("\t\t\t\t\t  Click Here to enter "
+            + "another date and get another pokemon!!!\t\t\t\t\t");
 
         HBox imageView = new HBox();
         Label information = new Label("This APOD is from, the dominant color is, the PokeMon is");
 
         imageView.getChildren().addAll(APODApi.create(), PokeImage.create());
 
-        root.getChildren().addAll(Components.create(), imageView, information);
-
         this.label = new Label();
 
+        button.setOnAction(new EventHandler<ActionEvent>() {
 
+                @Override
+                public void handle(ActionEvent event) {
+                    showInputTextDialog();
+                }
+            });
+
+        root.getChildren().addAll(button, label,imageView, information);
 
         // setup stage
         stage.setTitle("OmegaApp Presents: Celestial Pokemon!!!");
@@ -77,8 +87,8 @@ public class OmegaApp extends Application {
 
 
         dialog.setTitle("Enter input");
-        dialog.setHeaderText("Please enter the desired date."
-            + "Format (year-month-day, 0000-00-00)\n Example: 2001-12-31");
+        dialog.setHeaderText("Please enter the desired date!\n\n"
+            + " Format (year-month-day, 0000-00-00)\n\n Example: 2001-12-31");
         dialog.setContentText("Name:");
 
         Optional<String> result = dialog.showAndWait();

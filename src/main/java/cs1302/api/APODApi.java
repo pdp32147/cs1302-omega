@@ -64,8 +64,8 @@ public class APODApi {
         "https://api.nasa.gov/planetary/apod?api_key"
         + "=fDLjXx340WUXFwtnRZrpRZKy9LOlQI3ZuYw60jof&date=";
     private static String hd = "&hd=true";
-    public static String date = "2022-02-08";
-    public static String uri = APOD_API + date + hd;
+    private static String date = "2022-02-08"; //this is the default date
+    private static String uri = APOD_API + date + hd;
 
     /** pictureGet method but accepts a date rather than default.
      * @param date for the desired apod
@@ -195,15 +195,25 @@ public class APODApi {
         } // for colorCounter
 
         String mostCommonColor = colorNames[counterTracker];
+
+        /*
+// For testing purposes
+        for (int i = 0; i < 10; i++) {
+            System.out.println(colorNames[i] + ": " + colorCounter[i]);
+        } // for
+        // For testing purposes
+        */
+
         return mostCommonColor;
     } //imageCommonColor_
 
     /** This method returns a string value the most common color in the apod.
      * The colors are excluding black, brown, and grey.
      * @return string name of most common color
+     * @param date is the date of the image for which the color is returned.
      */
-    public static String getColor() {
-        pictureGet();
+    public static String getColor(String date) {
+        pictureGet(date);
         return imageCommonColor(apodCompact, 99, 99);
     }
 
@@ -236,6 +246,7 @@ public class APODApi {
 
         // Testing Purposes: System.out.println(red + ", " + green + ", " + blue);
 
+
         return closestColor(rgb);
 
     } //getCommonColor
@@ -259,17 +270,19 @@ public class APODApi {
         colors[3] = rgbDistance("green", rgb, 0, 225, 0);
         colors[4] = rgbDistance("black", rgb, 0, 0, 0);
         colors[5] = rgbDistance("brown", rgb, 102, 51, 0);
-        colors[6] = rgbDistance("purple", rgb, 153, 51, 255);
+        colors[6] = rgbDistance("purple", rgb, 127, 0, 255);
         colors[7] = rgbDistance("gray", rgb, 160, 160, 160);
         colors[8] = rgbDistance("white", rgb, 225, 225, 225);
         colors[9] = rgbDistance("pink", rgb, 255, 0, 127);
-/*
+
+        /*
 // FOR TESTING PURPOSES
-        System.out.println("Distance formula:");
+        System.out.println("Distance formula: ");
         for (int i = 0; i < colors.length; i++) {
             System.out.print( colorNames[i] + ": " + colors[i] + ",");
         } // for
-*/
+ // FOR TESTING PURPOSES
+ */
         for (int i = 0; i < colors.length; i++) {
             if (colors[i] < colors[closer]) {
                 closer = i;

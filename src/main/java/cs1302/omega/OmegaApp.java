@@ -36,6 +36,8 @@ public class OmegaApp extends Application {
     String input;
     String inputStorage;
 
+    public static String date = "2011-03-24"; //year,month, date
+
     /**
      * Constructs an {@code OmegaApp} object. This default (i.e., no argument)
      * constructor is executed in Step 2 of the JavaFX Application Life-Cycle.
@@ -56,7 +58,7 @@ public class OmegaApp extends Application {
         ImageView APODContainer = new ImageView();
         ImageView PokeContainer = new ImageView();
 
-        APODContainer.setImage(APODApi.apodForApp("1999-12-17"));
+        APODContainer.setImage(APODApi.apodForApp(date));
         PokeContainer.setImage(PokeImage.pokeForApp());
 
         HBox imageView = new HBox();

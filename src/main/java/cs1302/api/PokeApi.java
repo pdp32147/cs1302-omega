@@ -33,7 +33,7 @@ import java.nio.charset.StandardCharsets;
 public class PokeApi {
 
     public static String[] names = new String[20];
-    public static String pokemonColor =  APODApi.getColor();
+    public static String pokemonColor =  APODApi.getColor(cs1302.omega.OmegaApp.date);
     public static String pokemonName;
 
     /** HTTP client. */

@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -35,12 +36,16 @@ public class OmegaApp extends Application {
     public void start(Stage stage) {
 
         // setup scene
-        HBox root = new HBox();
+        VBox root = new VBox();
         Scene scene = new Scene(root);
-
         ImageView pokeView = PokeImage.create();
+        HBox images = new HBox();
+        Label information = new Label("This APOD is from, the dominant color is, the PokeMon is");
 
-        root.getChildren().addAll(APODApi.create(), pokeView);
+        images.getChildren().addAll(APODApi.create(), PokeImage.create());
+
+        root.getChildren().addAll(ControlBar.create(), images, information);
+
         System.out.println(PokeImage.pictureGet());
 
         // setup stage

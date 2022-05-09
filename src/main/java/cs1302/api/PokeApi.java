@@ -3,6 +3,8 @@ package cs1302.api;
 import cs1302.omega.PokeResponse;
 import cs1302.omega.PokeResult;
 
+import java.util.Random;
+
 import java.net.http.HttpClient;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -31,7 +33,7 @@ import java.nio.charset.StandardCharsets;
 public class PokeApi {
 
     public static String[] names = new String[20];
-    //public static String pokemonColor =  APODApi.getColor();
+    public static String pokemonColor =  APODApi.getColor();
 
     /** HTTP client. */
     public static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
@@ -46,7 +48,7 @@ public class PokeApi {
 
     private static final String POKE_API  =
         "https://pokeapi.co/api/v2/pokemon-color/";
-    private static String color = "purple";
+    private static String color = pokemonColor;
     public static String uri = POKE_API + color;
 
     /**
@@ -67,26 +69,30 @@ public class PokeApi {
             } // if
             // get request body (the content we requested), as a string
             String jsonString = response.body();
-            System.out.println(jsonString);
             //parse the JSON-formatted string using GSON
             PokeResponse pokeResponse = GSON
                 .fromJson(jsonString, PokeResponse.class);
-
+            System.out.println(randomPokemon(pokeResponse));
         } catch (IOException | InterruptedException e) {
             System.err.println(e);
             e.printStackTrace();
         } // trycatch
     } //pictureGet
 
-    /** Creates an ImageView object using the response.
-     * @param apodResponse the url of this query is used for the image
-     * @return ImageView of url supplied.
+    /** Returns the name of a random pokemon from the first 20 returned from the query.
+     * @param pokeResponse is the response from url
+     * @return name of a random pokemon using pokeResponse
      */
-/*    public static String stringArray(int i, PokeResponse pokeResponse) {
-        PokeResult result = pokeResponse.pokemon_species[i];
-        String name = result.name;
-        return name;
-  } //imgCraft
-*/
+    public static String randomPokemon(PokeResponse pokeResponse) {
+        String[] nameArray = new String[20];
+
+        for (int i = 0; i < nameArray.length; i++) {
+            nameArray[i] = pokeResponse.pokemonSpecies[i].name;
+        } // for
+        Random rand  = new Random();
+        int random = rand.nextInt(19);
+        return nameArray[random];
+    } //imgCraft
+
 
 } //PokeApi

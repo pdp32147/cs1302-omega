@@ -6,6 +6,6 @@ package cs1302.omega;
  */
 public class PokeResult {
 
-    String name;
+    public String name;
 
 } //PokeResult

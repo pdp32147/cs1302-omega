@@ -3,18 +3,19 @@ package cs1302.omega;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Separator;
 
 
-/** This class creates the ControlBar.
+/** This class creates the Components.
  */
-public class ControlBar {
+public class Components {
 
     /**
-     * This method creates the controlBar component.
+     * This method creates the components for the App class.
      *
      * @return HBox object.
      */
@@ -30,4 +31,4 @@ public class ControlBar {
         return controlBar;
     } // controlBar
 
-} // ControlBar
+} // Components

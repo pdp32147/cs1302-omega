@@ -69,11 +69,11 @@ public class OmegaApp extends Application {
 
                 @Override
                 public void handle(ActionEvent event) {
-                        showInputTextDialog();
-                        String userInput = input;
-                        date = userInput;
-                        APODContainer.setImage(APODApi.apodForApp(date, true));
-                        PokeContainer.setImage(PokeImage.pokeForApp(date, false));
+                    showInputTextDialog();
+                    String userInput = input;
+                    date = userInput;
+                    APODContainer.setImage(APODApi.apodForApp(date, true));
+                    PokeContainer.setImage(PokeImage.pokeForApp(date, false));
                 } //handle
             }); //setOnAction
 

@@ -50,6 +50,7 @@ public class PokeImage {
     /**
      * Get the picture url that corresponds to the pokemon.
      * @param date used to interact with app class
+     * @param isApod discerns whether this is used to make an APOD image.
      * @return string which is the url
      */
     public static String pictureGet(String date, boolean isApod) {
@@ -84,6 +85,7 @@ public class PokeImage {
 
     /** This method returns an Image object of the pokemon rather than imageview.
      *@param date is here to take information from Application class.
+     *@param isApod discerns whether this is used to make an APOD image.
      *@return Image of pokemon.
      */
     public static Image pokeForApp(String date, boolean isApod) {

@@ -70,6 +70,7 @@ public class APODApi {
 
     /** pictureGet method but accepts a date rather than default.
      * @param date for the desired apod
+     * @param isApod discerns whether this is used to make an APOD image.
      */
     public static void pictureGet(String date, boolean isApod) {
         uri = APOD_API + date + hd;
@@ -80,6 +81,7 @@ public class APODApi {
 
     /**
      * Queries the API, get the response, and uses it to assign ImageView picture to a picture.
+     * @param isApod discerns whether this is used to make an APOD image.
      */
     public static void pictureGet(boolean isApod) {
 
@@ -104,13 +106,14 @@ public class APODApi {
             apodForApp = apodImage(apodResponse, isApod);
         } catch (IOException | InterruptedException e) {
             if (isApod == true) {
-            Platform.runLater(() -> AppAlert.alerter());
+                Platform.runLater(() -> AppAlert.alerter());
             }
         } // trycatch
     } //pictureGet
 
     /**This method returns the APOD Image.
      *@param date for the APOD
+     *@param isApod discerns whether this is used to make an APOD image.
      *@return Image of APOD
      */
     public static Image apodForApp(String date, boolean isApod) {
@@ -120,6 +123,7 @@ public class APODApi {
 
     /** Creates an ImageView object using the response from the pictureGet method.
      * @param apodResponse the url of this query is used for the image
+     * @param isApod discerns whether this is used to make an APOD image.
      * @return ImageView of url supplied.
      */
     private static ImageView imgCraft(APODResponse apodResponse, boolean isApod) {
@@ -133,6 +137,7 @@ public class APODApi {
 
     /** This method makes the image using apodResponse.
      * @param apodResponse is the response from query
+     * @param isApod discerns whether this is used to make an APOD image.
      * @return Image this image gets stored as a var to another method
      * can call it.
      */
@@ -168,19 +173,19 @@ public class APODApi {
                     colorCounter[3]++;
                 } // if green
                 if (commonColor.equals("black")) {
-                    colorCounter[4] = 0;
+                    colorCounter[4] = + .000000001;
                 } // if black
                 if (commonColor.equals("brown")) {
-                    colorCounter[5]+=.0000000001;
+                    colorCounter[5] = + .0000000001;
                 } // if brown
                 if (commonColor.equals("purple")) {
                     colorCounter[6]++;
                 } // if purple
                 if (commonColor.equals("gray")) {
-                    colorCounter[7]+=.00000001;
+                    colorCounter[7] = + .00000001;
                 } // if gray
                 if (commonColor.equals("white")) {
-                    colorCounter[8]=+.3;
+                    colorCounter[8] = + .3;
                 } // if white
                 if (commonColor.equals("pink")) {
                     colorCounter[9]++;
@@ -212,6 +217,7 @@ public class APODApi {
     /** This method returns a string value the most common color in the apod.
      * The colors are excluding black, brown, and grey.
      * @return string name of most common color
+     * @param isApod discerns whether this is used to make an APOD image.
      * @param date is the date of the image for which the color is returned.
      */
     public static String getColor(String date, boolean isApod) {

@@ -58,6 +58,7 @@ public class PokeApi {
     /**
      * Get the picture that corresponds to the right date.
      * @param date value is passed here to get back to application class.
+     * @param getApod discerns whether this is used to make an APOD image.
      */
     public static void pictureGet(String date, boolean getApod) {
 
@@ -110,6 +111,7 @@ public class PokeApi {
  * this class.
  * @param date needs to be passed here to interact with application class.
  * @return string of the pokemon name
+ * @param  getApod discerns whether this is used to make an APOD image.
  */
     public static String getName(String date, boolean getApod) {
         pictureGet(date, getApod);

@@ -1,6 +1,7 @@
 package cs1302.api;
 
 import cs1302.api.APODResponse;
+import cs1302.omega.AppAlert;
 
 import java.net.http.HttpClient;
 import javafx.application.Application;
@@ -70,9 +71,9 @@ public class APODApi {
     /** pictureGet method but accepts a date rather than default.
      * @param date for the desired apod
      */
-    public static void pictureGet(String date) {
+    public static void pictureGet(String date, boolean isApod) {
         uri = APOD_API + date + hd;
-        pictureGet();
+        pictureGet(isApod);
     } //pictureGet date
 
     //Imageview imageView = new ImageView;
@@ -80,7 +81,7 @@ public class APODApi {
     /**
      * Queries the API, get the response, and uses it to assign ImageView picture to a picture.
      */
-    public static void pictureGet() {
+    public static void pictureGet(boolean isApod) {
 
         try {
             // build request
@@ -99,11 +100,12 @@ public class APODApi {
             // parse the JSON-formatted string using GSON
             APODResponse apodResponse = GSON
                 .fromJson(jsonString, APODResponse.class);
-            picture = imgCraft(apodResponse); // assign imageView from query to Picture.
-            apodForApp = apodImage(apodResponse);
+            picture = imgCraft(apodResponse, isApod); // assign imageView from query to Picture.
+            apodForApp = apodImage(apodResponse, isApod);
         } catch (IOException | InterruptedException e) {
-            System.err.println(e);
-            e.printStackTrace();
+            if (isApod == true) {
+            Platform.runLater(() -> AppAlert.alerter());
+            }
         } // trycatch
     } //pictureGet
 
@@ -111,8 +113,8 @@ public class APODApi {
      *@param date for the APOD
      *@return Image of APOD
      */
-    public static Image apodForApp(String date) {
-        pictureGet(date);
+    public static Image apodForApp(String date, boolean isApod) {
+        pictureGet(date,isApod);
         return apodForApp;
     } //apodForApp
 
@@ -120,10 +122,10 @@ public class APODApi {
      * @param apodResponse the url of this query is used for the image
      * @return ImageView of url supplied.
      */
-    private static ImageView imgCraft(APODResponse apodResponse) {
+    private static ImageView imgCraft(APODResponse apodResponse, boolean isApod) {
         String url  = apodResponse.url;
         apodImage = new Image(url, DEFAULT_WIDTH, DEFAULT_HEIGHT, false, false);
-        apodCompact = new Image(url, 100, 100, false, false);
+        apodCompact = new Image(url, 200, 200, false, false);
         ImageView imgView = new ImageView(apodImage);
         imgView.setPreserveRatio(true);
         return imgView;
@@ -134,7 +136,7 @@ public class APODApi {
      * @return Image this image gets stored as a var to another method
      * can call it.
      */
-    private static Image apodImage(APODResponse apodResponse) {
+    private static Image apodImage(APODResponse apodResponse , boolean isApod) {
         String url = apodResponse.url;
         apodImage = new Image(url, DEFAULT_WIDTH, DEFAULT_HEIGHT, false, false);
         return apodImage;
@@ -149,14 +151,14 @@ public class APODApi {
      * @return String of the most common color in the picture.
      */
     public static String imageCommonColor (Image apodCompact, int x, int y) {
-        int[] colorCounter = new int[10];
+        double[] colorCounter = new double[10];
         for (int i = 0; i <= (x - 1); i++) {
             for (int j = 0; j <= (y - 1); j++) {
                 String commonColor = getCommonColor(apodCompact, i, j);
                 if (commonColor.equals("red")) {
                     colorCounter[0]++;
                 } // if red
-                if (commonColor.equals(colorNames[2])) {
+                if (commonColor.equals("blue")) {
                     colorCounter[1]++;
                 } // if blue
                 if (commonColor.equals("yellow")) {
@@ -169,16 +171,16 @@ public class APODApi {
                     colorCounter[4] = 0;
                 } // if black
                 if (commonColor.equals("brown")) {
-                    colorCounter[5] = 0;
+                    colorCounter[5]+=.0000000001;
                 } // if brown
                 if (commonColor.equals("purple")) {
                     colorCounter[6]++;
                 } // if purple
                 if (commonColor.equals("gray")) {
-                    colorCounter[7] = 0;
+                    colorCounter[7]+=.00000001;
                 } // if gray
                 if (commonColor.equals("white")) {
-                    colorCounter[8]++;
+                    colorCounter[8]=+.3;
                 } // if white
                 if (commonColor.equals("pink")) {
                     colorCounter[9]++;
@@ -196,13 +198,13 @@ public class APODApi {
 
         String mostCommonColor = colorNames[counterTracker];
 
-
+/*
 // For testing purposes
         for (int i = 0; i < 10; i++) {
             System.out.println(colorNames[i] + ": " + colorCounter[i]);
         } // for
         // For testing purposes
-
+        */
 
         return mostCommonColor;
     } //imageCommonColor_
@@ -212,18 +214,10 @@ public class APODApi {
      * @return string name of most common color
      * @param date is the date of the image for which the color is returned.
      */
-    public static String getColor(String date) {
-        pictureGet(date);
-        return imageCommonColor(apodCompact, 99, 99);
+    public static String getColor(String date, boolean isApod) {
+        pictureGet(date, isApod);
+        return imageCommonColor(apodCompact, 199, 199);
     }
-
-/** Creates an ImageView object that can be used in the application.
- * @return ImageView object that can be added to the application scene.
- */
-    public static ImageView create() {
-        pictureGet();
-        return picture;
-    } //create
 
     /** This method gets color of a pixel specific by the paramters
      * of an image that is supplied. Gets string using closest color

@@ -49,12 +49,13 @@ public class PokeImage {
 
     /**
      * Get the picture url that corresponds to the pokemon.
+     * @param date used to interact with app class
      * @return string which is the url
      */
-    public static String pictureGet(String date) {
+    public static String pictureGet(String date, boolean isApod) {
         try {
 
-            name = PokeApi.getName(date);
+            name = PokeApi.getName(date, isApod);
             uri = POKE_API + name;
 
             // build request
@@ -82,18 +83,21 @@ public class PokeImage {
     } //pictureGet
 
     /** This method returns an Image object of the pokemon rather than imageview.
-     * @return Image of pokemon.
+     *@param date is here to take information from Application class.
+     *@return Image of pokemon.
      */
-    public static Image pokeForApp(String date) {
-        String url = pictureGet(date);
+    public static Image pokeForApp(String date, boolean isApod) {
+        String url = pictureGet(date, isApod);
         Image pokemonPic = new Image (url, 200, 200, false, false);
-        System.out.println("This is the button generated one");
         return pokemonPic;
     } //pokeForApp
 
+    /**This method returns an image object for the default in the app class.
+     * @return Image that is used in App class, is a pokemon.
+     */
     public static Image pokeForApp() {
-        String url = "https://raw.githubusercontent.com/PokeAPI"
-            + "/sprites/master/sprites/pokemon/129.png";
+        String url = "https://raw.githubusercontent.com/PokeAPI/"
+            + "sprites/master/sprites/pokemon/40.png";
         Image pokemonPic = new Image (url, 200, 200, false, false);
         return pokemonPic;
     } //pokeForApp

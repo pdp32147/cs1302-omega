@@ -3,6 +3,11 @@ package cs1302.omega;
 import cs1302.api.APODApi;
 import cs1302.api.PokeApi;
 import cs1302.api.PokeImage;
+import cs1302.omega.AppAlert;
+
+import java.io.IOException;
+import java.lang.IllegalArgumentException;
+
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -33,7 +38,7 @@ public class OmegaApp extends Application {
     String input;
     String inputStorage;
 
-    public static String date = "2011-03-24"; //year,month, date, DO NOT MOVE
+    public static String date = "2017-03-12"; //year,month, date, DO NOT MOVE
 
     /**
      * Constructs an {@code OmegaApp} object. This default (i.e., no argument)
@@ -55,7 +60,7 @@ public class OmegaApp extends Application {
         ImageView APODContainer = new ImageView();
         ImageView PokeContainer = new ImageView();
 
-        APODContainer.setImage(APODApi.apodForApp("2011-03-24"));
+        APODContainer.setImage(APODApi.apodForApp("2017-03-12", false));
         PokeContainer.setImage(PokeImage.pokeForApp());  //default zero param
 
         this.label = new Label();
@@ -64,14 +69,13 @@ public class OmegaApp extends Application {
 
                 @Override
                 public void handle(ActionEvent event) {
-                    showInputTextDialog();
-                    String userInput = input;
-                    date = userInput;
-                    APODContainer.setImage(APODApi.apodForApp(date));
-                    PokeContainer.setImage(PokeImage.pokeForApp(date));
-
-                }
-            });
+                        showInputTextDialog();
+                        String userInput = input;
+                        date = userInput;
+                        APODContainer.setImage(APODApi.apodForApp(date, true));
+                        PokeContainer.setImage(PokeImage.pokeForApp(date, false));
+                } //handle
+            }); //setOnAction
 
         HBox imageView = new HBox();
         Label information = new Label("This APOD is from, the dominant color is, the PokeMon is");
@@ -95,22 +99,18 @@ public class OmegaApp extends Application {
      */
     private void showInputTextDialog() {
 
-        TextInputDialog dialog = new TextInputDialog("2018-09-26");
-
+        TextInputDialog dialog = new TextInputDialog();
 
         dialog.setTitle("Enter input");
         dialog.setHeaderText("Please enter the desired date!\n\n"
-            + " Format (year-month-day, 0000-00-00)\n\n Example: 2001-12-31");
-        dialog.setContentText("Name:");
+            + " Format (year-month-day, 0000-00-00)\n\n Example: 2018-12-31");
+        dialog.setContentText("Date:");
 
         Optional<String> result = dialog.showAndWait();
 
-        result.ifPresent(name -> {
-            this.label.setText(name);
-            input = name;
+        result.ifPresent(date -> {
+            input = date;
         });
-        System.out.println("Testing input from helper method: " + input);
-
     }
 
 } // OmegaApp

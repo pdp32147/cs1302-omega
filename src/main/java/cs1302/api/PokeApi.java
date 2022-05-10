@@ -35,7 +35,8 @@ import java.nio.charset.StandardCharsets;
 public class PokeApi {
 
     public static String[] names = new String[20];
-    public static String pokemonColor =  APODApi.getColor(cs1302.omega.OmegaApp.date);
+    public static String pokemonColor =
+        APODApi.getColor(cs1302.omega.OmegaApp.date, false);
     public static String pokemonName;
 
     /** HTTP client. */
@@ -56,11 +57,13 @@ public class PokeApi {
 
     /**
      * Get the picture that corresponds to the right date.
+     * @param date value is passed here to get back to application class.
      */
-    public static void pictureGet(String date) {
+    public static void pictureGet(String date, boolean getApod) {
+
         try {
 
-            color = APODApi.getColor(date);
+            color = APODApi.getColor(date, getApod);
             uri = POKE_API + color;
 
             // build request
@@ -105,10 +108,11 @@ public class PokeApi {
 
 /** This method returns the string of the name so it's usable outside
  * this class.
+ * @param date needs to be passed here to interact with application class.
  * @return string of the pokemon name
  */
-    public static String getName(String date) {
-        pictureGet(date);
+    public static String getName(String date, boolean getApod) {
+        pictureGet(date, getApod);
         return pokemonName;
     } // getName
 

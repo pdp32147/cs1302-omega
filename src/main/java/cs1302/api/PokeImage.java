@@ -90,18 +90,9 @@ public class PokeImage {
      */
     public static Image pokeForApp(String date, boolean isApod) {
         String url = pictureGet(date, isApod);
-        Image pokemonPic = new Image (url, 190, 190, false, false);
+        Image pokemonPic = new Image (url, 180, 180, false, false);
         return pokemonPic;
     } //pokeForApp
 
-    /**This method returns an image object for the default in the app class.
-     * @return Image that is used in App class, is a pokemon.
-     */
-    public static Image pokeForApp() {
-        String url = "https://raw.githubusercontent.com/PokeAPI/"
-            + "sprites/master/sprites/pokemon/40.png";
-        Image pokemonPic = new Image (url, 190, 190, false, false);
-        return pokemonPic;
-    } //pokeForApp
 
 } //PokeApi

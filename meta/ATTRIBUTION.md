@@ -6,17 +6,18 @@ authored by members of your project team.
 ## Assets
 
 * ApodApi
-    - src/main/java/cs1302/api/APODApi.java
+    - `src/main/java/cs1302/api/APODApi.java`
     - NASA. 1995.
     - https://api.nasa.gov/
     - Public Domain - retrieved images may be copywritten and are listed on the website
 
 * PokeApi
-    - src/main/java/cs1302/api/PokeApi.java
+    - `src/main/java/cs1302/api/PokeApi.java`
     - Paul Hallett. 2018.
     - https://pokeapi.co/about
     - Commercial Use
 
+------------- DID NOT USE ANY OF THE ASSETS BELOW HERE ----------
 
 * The Palm of Alpha Tau Omega
   - `resources/readme-banner.png`

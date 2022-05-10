@@ -34,9 +34,7 @@ public class OmegaApp extends Application {
     Stage stage;
     Scene scene;
 
-    Label label;
     String input;
-    String inputStorage;
 
     public static String date = "2017-03-12"; //year,month, date, DO NOT MOVE
 
@@ -54,19 +52,19 @@ public class OmegaApp extends Application {
         // setup scene
         VBox root = new VBox();
         Scene scene = new Scene(root);
-        Button button = new Button("\t\t\t\t\t  Click Here to enter "
-            + "another date and get another pokemon!!!\t\t\t\t\t");
-        this.label = new Label();
+        Button button = new Button("\t\t\t\t\t\t\t\t\t★★★Get New PokePod!★★★\t\t\t\t\t\t\t\t\t\t");
 
         ImageView APODContainer = new ImageView();
         ImageView PokeContainer1 = new ImageView();
         ImageView PokeContainer2 = new ImageView();
         ImageView PokeContainer3 = new ImageView();
+        Label label = new Label(" ☺ Welcome! ☺    Click the button above to get"
+            + " 3 pokemon that match the dominant color in the APOD for your choice! ");
 
-        APODContainer.setImage(APODApi.apodForApp("2017-03-12", false));
-        PokeContainer1.setImage(PokeImage.pokeForApp());  //default zero param
-        PokeContainer2.setImage(PokeImage.pokeForApp());
-        PokeContainer3.setImage(PokeImage.pokeForApp());
+        APODContainer.setImage(APODApi.apodForApp(date, false));
+        PokeContainer1.setImage(PokeImage.pokeForApp(date, false));  //default zero param
+        PokeContainer2.setImage(PokeImage.pokeForApp(date, false));
+        PokeContainer3.setImage(PokeImage.pokeForApp(date, false));
 
 
         button.setOnAction(new EventHandler<ActionEvent>() {
@@ -80,6 +78,8 @@ public class OmegaApp extends Application {
                     PokeContainer1.setImage(PokeImage.pokeForApp(date,false));
                     PokeContainer2.setImage(PokeImage.pokeForApp(date,false));
                     PokeContainer3.setImage(PokeImage.pokeForApp(date,false));
+                    label.setText(" Dominant color: " + APODApi.getColor(date,false)
+                        + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDate: " + date);
                 } //handle
             }); //setOnAction
 
@@ -89,7 +89,7 @@ public class OmegaApp extends Application {
 
         imageView.getChildren().addAll( APODContainer, pokeStack);
 
-        root.getChildren().addAll(button,imageView);
+        root.getChildren().addAll(button,label,imageView);
 
         // setup stage
         stage.setTitle("OmegaApp Presents: Celestial Pokemon!!!");
@@ -110,7 +110,8 @@ public class OmegaApp extends Application {
         TextInputDialog dialog = new TextInputDialog();
 
         dialog.setTitle("Enter input");
-        dialog.setHeaderText("Please enter the desired date!\n\n"
+        dialog.setHeaderText("Please enter the date of your desired "
+            + "Astronomy Picture of the Day (APOD)!\n\n"
             + " Format (year-month-day, 0000-00-00)\n\n Example: 2018-12-31");
         dialog.setContentText("Date:");
 

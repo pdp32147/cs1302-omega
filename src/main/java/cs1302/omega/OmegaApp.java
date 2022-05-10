@@ -92,7 +92,7 @@ public class OmegaApp extends Application {
         root.getChildren().addAll(button,label,imageView);
 
         // setup stage
-        stage.setTitle("OmegaApp Presents: Celestial Pokemon!!!");
+        stage.setTitle("OmegaApp Presents: PokePod!!!");
         stage.setScene(scene);
         stage.setOnCloseRequest(event -> Platform.exit());
         stage.setHeight(600);

@@ -82,7 +82,7 @@ public class OmegaApp extends Application {
 
         imageView.getChildren().addAll( APODContainer, PokeContainer);
 
-        root.getChildren().addAll(button,imageView, information);
+        root.getChildren().addAll(button,imageView);
 
         // setup stage
         stage.setTitle("OmegaApp Presents: Celestial Pokemon!!!");

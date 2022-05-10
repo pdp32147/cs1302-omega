@@ -68,6 +68,21 @@ public class APODApi {
     private static String date = "2022-02-08"; //this is the default date
     private static String uri = APOD_API + date + hd;
 
+    /** This method checks to see if the imageUrl belongs to a gif (is invalid).
+     * @param uri is the uri that is being checked.
+     * @return boolean depending on whether it is is a gif.
+     */
+    public static boolean isGif(String uri) {
+
+        int uriLength = uri.length();
+        int snitchValue = uriLength - 3;
+        if (uri.charAt(snitchValue) == 'g') {
+            return true;
+        }
+        return false;
+    } //ifGif
+
+
     /** pictureGet method but accepts a date rather than default.
      * @param date for the desired apod
      * @param isApod discerns whether this is used to make an APOD image.
@@ -128,6 +143,9 @@ public class APODApi {
      */
     private static ImageView imgCraft(APODResponse apodResponse, boolean isApod) {
         String url  = apodResponse.url;
+        if (isGif(url) == true) {
+            url = "https://apod.nasa.gov/apod/image/1809/Broom_Pickering_milne_APODw600.jpg";
+        } // if is gif, use default
         apodImage = new Image(url, DEFAULT_WIDTH, DEFAULT_HEIGHT, false, false);
         apodCompact = new Image(url, 200, 200, false, false);
         ImageView imgView = new ImageView(apodImage);
@@ -143,6 +161,9 @@ public class APODApi {
      */
     private static Image apodImage(APODResponse apodResponse , boolean isApod) {
         String url = apodResponse.url;
+        if (isGif(url) == true) {
+            url = "https://apod.nasa.gov/apod/image/1809/Broom_Pickering_milne_APODw600.jpg";
+        } // if is gif, use default
         apodImage = new Image(url, DEFAULT_WIDTH, DEFAULT_HEIGHT, false, false);
         return apodImage;
     } //apodImage
@@ -205,11 +226,11 @@ public class APODApi {
 
 /*
 // For testing purposes
-        for (int i = 0; i < 10; i++) {
-            System.out.println(colorNames[i] + ": " + colorCounter[i]);
-        } // for
-        // For testing purposes
-        */
+for (int i = 0; i < 10; i++) {
+System.out.println(colorNames[i] + ": " + colorCounter[i]);
+} // for
+// For testing purposes
+*/
 
         return mostCommonColor;
     } //imageCommonColor_
@@ -277,12 +298,12 @@ public class APODApi {
 
         /*
 // FOR TESTING PURPOSES
-        System.out.println("Distance formula: ");
-        for (int i = 0; i < colors.length; i++) {
-            System.out.print( colorNames[i] + ": " + colors[i] + ",");
-        } // for
- // FOR TESTING PURPOSES
- */
+System.out.println("Distance formula: ");
+for (int i = 0; i < colors.length; i++) {
+System.out.print( colorNames[i] + ": " + colors[i] + ",");
+} // for
+// FOR TESTING PURPOSES
+*/
         for (int i = 0; i < colors.length; i++) {
             if (colors[i] < colors[closer]) {
                 closer = i;

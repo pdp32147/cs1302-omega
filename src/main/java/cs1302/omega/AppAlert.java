@@ -17,7 +17,8 @@ public class AppAlert {
             + "that the date must be formatted as follows:\n\n\t\t\t\t(YEAR-MONTH-DAY,"
             + " in 0000-00-00 form)"
             + "\n\t\t\t\t\tFor example: 2004-01-31\n\nNOTE: Only dates after 1995-06-16 "
-            + "are valid because that is the date of the\nfirst ever APOD!");
+            + "and before today's date are valid\nbecause these are the only dates"
+            + " that currently have an APOD!");
 
         message.setEditable(false);
         a.getDialogPane().setContent(message);

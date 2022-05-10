@@ -2,6 +2,8 @@ package cs1302.api;
 
 import cs1302.omega.PokeResponse;
 import cs1302.omega.PokeResult;
+import cs1302.omega.OmegaApp;
+import cs1302.api.APODApi;
 
 import java.util.Random;
 
@@ -49,14 +51,18 @@ public class PokeApi {
 
     private static final String POKE_API  =
         "https://pokeapi.co/api/v2/pokemon-color/";
-    private static String color = pokemonColor;
-    public static String uri = POKE_API + color;
+    private static String color;
+    public static String uri;
 
     /**
      * Get the picture that corresponds to the right date.
      */
-    public static void pictureGet() {
+    public static void pictureGet(String date) {
         try {
+
+            color = APODApi.getColor(date);
+            uri = POKE_API + color;
+
             // build request
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
@@ -101,8 +107,8 @@ public class PokeApi {
  * this class.
  * @return string of the pokemon name
  */
-    public static String getName() {
-        pictureGet();
+    public static String getName(String date) {
+        pictureGet(date);
         return pokemonName;
     } // getName
 

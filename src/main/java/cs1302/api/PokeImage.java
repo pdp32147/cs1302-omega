@@ -26,8 +26,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 
-/**This class is used to get the correct APOD Image corrresponding
- * to the user's birthday.
+/**This class is used to get the correct pokemon given a name.
  */
 public class PokeImage {
 
@@ -44,16 +43,20 @@ public class PokeImage {
 
     private static final String POKE_API  =
         "https://pokeapi.co/api/v2/pokemon-form/";
-    public static String name = PokeApi.getName();
-    public static String uri = POKE_API + name;
+    public static String name;
+    public static String uri;
     public static String imageUrl;
 
     /**
      * Get the picture url that corresponds to the pokemon.
      * @return string which is the url
      */
-    public static String pictureGet() {
+    public static String pictureGet(String date) {
         try {
+
+            name = PokeApi.getName(date);
+            uri = POKE_API + name;
+
             // build request
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
@@ -78,22 +81,19 @@ public class PokeImage {
         return imageUrl;
     } //pictureGet
 
-/** This method returns an ImageView object containing the image of the returned pokemon.
- * @return ImageView the object that contain the Pokemon picture
- */
-    public static ImageView create() {
-        String url = pictureGet();
-        Image pokemonPic = new Image (url, 200, 200, false, false);
-        ImageView imgView = new ImageView(pokemonPic);
-        imgView.setPreserveRatio(true);
-        return imgView;
-    } //getPicture
-
     /** This method returns an Image object of the pokemon rather than imageview.
      * @return Image of pokemon.
      */
+    public static Image pokeForApp(String date) {
+        String url = pictureGet(date);
+        Image pokemonPic = new Image (url, 200, 200, false, false);
+        System.out.println("This is the button generated one");
+        return pokemonPic;
+    } //pokeForApp
+
     public static Image pokeForApp() {
-        String url = pictureGet();
+        String url = "https://raw.githubusercontent.com/PokeAPI"
+            + "/sprites/master/sprites/pokemon/129.png";
         Image pokemonPic = new Image (url, 200, 200, false, false);
         return pokemonPic;
     } //pokeForApp

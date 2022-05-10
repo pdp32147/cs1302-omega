@@ -29,14 +29,11 @@ public class OmegaApp extends Application {
     Stage stage;
     Scene scene;
 
-    ImageView pokeView = PokeImage.create();
-    ImageView apodView = APODApi.create();
-
     Label label;
     String input;
     String inputStorage;
 
-    public static String date = "2011-03-24"; //year,month, date
+    public static String date = "2011-03-24"; //year,month, date, DO NOT MOVE
 
     /**
      * Constructs an {@code OmegaApp} object. This default (i.e., no argument)
@@ -58,13 +55,8 @@ public class OmegaApp extends Application {
         ImageView APODContainer = new ImageView();
         ImageView PokeContainer = new ImageView();
 
-        APODContainer.setImage(APODApi.apodForApp(date));
-        PokeContainer.setImage(PokeImage.pokeForApp());
-
-        HBox imageView = new HBox();
-        Label information = new Label("This APOD is from, the dominant color is, the PokeMon is");
-
-        imageView.getChildren().addAll( APODContainer, PokeContainer);
+        APODContainer.setImage(APODApi.apodForApp("2011-03-24"));
+        PokeContainer.setImage(PokeImage.pokeForApp());  //default zero param
 
         this.label = new Label();
 
@@ -73,9 +65,18 @@ public class OmegaApp extends Application {
                 @Override
                 public void handle(ActionEvent event) {
                     showInputTextDialog();
-                    System.out.println("Testing input from handle method: " + input);
+                    String userInput = input;
+                    date = userInput;
+                    APODContainer.setImage(APODApi.apodForApp(date));
+                    PokeContainer.setImage(PokeImage.pokeForApp(date));
+
                 }
             });
+
+        HBox imageView = new HBox();
+        Label information = new Label("This APOD is from, the dominant color is, the PokeMon is");
+
+        imageView.getChildren().addAll( APODContainer, PokeContainer);
 
         root.getChildren().addAll(button,imageView, information);
 

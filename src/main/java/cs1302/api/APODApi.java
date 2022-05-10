@@ -196,13 +196,13 @@ public class APODApi {
 
         String mostCommonColor = colorNames[counterTracker];
 
-        /*
+
 // For testing purposes
         for (int i = 0; i < 10; i++) {
             System.out.println(colorNames[i] + ": " + colorCounter[i]);
         } // for
         // For testing purposes
-        */
+
 
         return mostCommonColor;
     } //imageCommonColor_

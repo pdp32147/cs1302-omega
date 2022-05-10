@@ -56,14 +56,18 @@ public class OmegaApp extends Application {
         Scene scene = new Scene(root);
         Button button = new Button("\t\t\t\t\t  Click Here to enter "
             + "another date and get another pokemon!!!\t\t\t\t\t");
+        this.label = new Label();
 
         ImageView APODContainer = new ImageView();
-        ImageView PokeContainer = new ImageView();
+        ImageView PokeContainer1 = new ImageView();
+        ImageView PokeContainer2 = new ImageView();
+        ImageView PokeContainer3 = new ImageView();
 
         APODContainer.setImage(APODApi.apodForApp("2017-03-12", false));
-        PokeContainer.setImage(PokeImage.pokeForApp());  //default zero param
+        PokeContainer1.setImage(PokeImage.pokeForApp());  //default zero param
+        PokeContainer2.setImage(PokeImage.pokeForApp());
+        PokeContainer3.setImage(PokeImage.pokeForApp());
 
-        this.label = new Label();
 
         button.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -73,14 +77,17 @@ public class OmegaApp extends Application {
                     String userInput = input;
                     date = userInput;
                     APODContainer.setImage(APODApi.apodForApp(date, true));
-                    PokeContainer.setImage(PokeImage.pokeForApp(date, false));
+                    PokeContainer1.setImage(PokeImage.pokeForApp(date,false));
+                    PokeContainer2.setImage(PokeImage.pokeForApp(date,false));
+                    PokeContainer3.setImage(PokeImage.pokeForApp(date,false));
                 } //handle
             }); //setOnAction
 
+        VBox pokeStack = new VBox();
+        pokeStack.getChildren().addAll(PokeContainer1, PokeContainer2, PokeContainer3);
         HBox imageView = new HBox();
-        Label information = new Label("This APOD is from, the dominant color is, the PokeMon is");
 
-        imageView.getChildren().addAll( APODContainer, PokeContainer);
+        imageView.getChildren().addAll( APODContainer, pokeStack);
 
         root.getChildren().addAll(button,imageView);
 
@@ -88,9 +95,10 @@ public class OmegaApp extends Application {
         stage.setTitle("OmegaApp Presents: Celestial Pokemon!!!");
         stage.setScene(scene);
         stage.setOnCloseRequest(event -> Platform.exit());
-        stage.sizeToScene();
+        stage.setHeight(600);
+        stage.setWidth(800);
         stage.show();
-
+        Platform.runLater(() -> stage.setResizable(false));
     } // start
 
 

@@ -58,8 +58,8 @@ public class APODApi {
         "https://api.nasa.gov/planetary/apod?api_key=" +
         "fDLjXx340WUXFwtnRZrpRZKy9LOlQI3ZuYw60jof&date=1995-06-16&hd=true";
 
-    private static final int DEFAULT_WIDTH = 500;
-    private static final int DEFAULT_HEIGHT = 500;
+    private static final int DEFAULT_WIDTH = 600;
+    private static final int DEFAULT_HEIGHT = 600;
 
     private static String APOD_API  =
         "https://api.nasa.gov/planetary/apod?api_key"

@@ -90,7 +90,7 @@ public class PokeImage {
      */
     public static Image pokeForApp(String date, boolean isApod) {
         String url = pictureGet(date, isApod);
-        Image pokemonPic = new Image (url, 200, 200, false, false);
+        Image pokemonPic = new Image (url, 190, 190, false, false);
         return pokemonPic;
     } //pokeForApp
 
@@ -100,7 +100,7 @@ public class PokeImage {
     public static Image pokeForApp() {
         String url = "https://raw.githubusercontent.com/PokeAPI/"
             + "sprites/master/sprites/pokemon/40.png";
-        Image pokemonPic = new Image (url, 200, 200, false, false);
+        Image pokemonPic = new Image (url, 190, 190, false, false);
         return pokemonPic;
     } //pokeForApp
 
